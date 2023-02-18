@@ -3,53 +3,48 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	area2 "snake/area"
+	"snake/constants"
+
+	"github.com/eiannone/keyboard"
 )
-
-const AREA_WIDTH = 24 + 2
-const AREA_HIGTH = 24 + 2
-
-const SYMBOL_HEAD = "O"
-const SYMBOL_TAIL = "="
-const SYMBOL_FRUIT = "x"
-const SYMBOL_WALL = "*"
 
 func main() {
 	fmt.Printf("Initing...\n")
 
-	var area [AREA_HIGTH][AREA_WIDTH]string
+	var area [constants.AREA_HIGTH][constants.AREA_WIDTH]string
 
 	// Init area with empty string
-	for i := 0; i < AREA_HIGTH; i++ {
-		for j := 0; j < AREA_WIDTH; j++ {
-			isYWall := j == 0 || j == AREA_HIGTH - 1
-			isXWall := i == 0 || i == AREA_WIDTH - 1
+	for i := 0; i < constants.AREA_HIGTH; i++ {
+		for j := 0; j < constants.AREA_WIDTH; j++ {
+			isYWall := j == 0 || j == constants.AREA_HIGTH-1
+			isXWall := i == 0 || i == constants.AREA_WIDTH-1
 
 			area[i][j] = " "
 
-			if (isYWall) {
-				area[i][j] = SYMBOL_WALL
+			if isYWall {
+				area[i][j] = constants.SYMBOL_WALL
 			}
 
-			if (isXWall) {
-				area[i][j] = SYMBOL_WALL
+			if isXWall {
+				area[i][j] = constants.SYMBOL_WALL
 			}
 		}
 	}
 
 	// Generating random initial position for snake
-	randomX := rand.Intn(AREA_WIDTH)
-	randomY := rand.Intn(AREA_HIGTH)
+	randomX := rand.Intn(constants.AREA_WIDTH - 2)
+	randomY := rand.Intn(constants.AREA_HIGTH - 2)
 
-	area[randomX][randomY] = SYMBOL_HEAD
+	area[randomX][randomY] = constants.SYMBOL_HEAD
 
-	printArea(area)
-}
-
-func printArea(area [AREA_WIDTH][AREA_HIGTH]string) {
-	for i := 0; i < AREA_HIGTH; i++ {
-		for j := 0; j < AREA_HIGTH; j++ {
-			fmt.Printf("%s ", area[i][j])
-		}
-		fmt.Printf(" \n")
+	if err := keyboard.Open(); err != nil {
+		panic(err)
 	}
+
+	defer func() {
+		_ = keyboard.Close()
+	}()
+
+	area2.Move(area)
 }
