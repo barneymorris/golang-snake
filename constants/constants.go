@@ -1,11 +1,15 @@
 package constants
 
 type KeyCodesStruct struct {
-	ESC int
+	ESC   int
+	UP    int
+	DOWN  int
+	LEFT  int
+	RIGHT int
 }
 
 func GetKeyCodesStruct() KeyCodesStruct {
-	values := KeyCodesStruct{ESC: 27}
+	values := KeyCodesStruct{ESC: 27, UP: 65517, LEFT: 65515, RIGHT: 65514, DOWN: 65516}
 	return values
 }
 

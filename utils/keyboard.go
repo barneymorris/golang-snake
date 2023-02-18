@@ -2,8 +2,8 @@ package utils
 
 import (
 	"fmt"
-
 	"github.com/eiannone/keyboard"
+	"snake/constants"
 )
 
 func OnKeyPress(p *keyboard.Key) {
@@ -16,7 +16,16 @@ func OnKeyPress(p *keyboard.Key) {
 			return
 		}
 
-		*p = key
+		i := int(key)
+		ESC := constants.GetKeyCodesStruct().ESC
+		LEFT := constants.GetKeyCodesStruct().LEFT
+		RIGHT := constants.GetKeyCodesStruct().RIGHT
+		UP := constants.GetKeyCodesStruct().UP
+		DOWN := constants.GetKeyCodesStruct().DOWN
+
+		if i == ESC || i == LEFT || i == RIGHT || i == UP || i == DOWN {
+			*p = key
+		}
 
 		if key == keyboard.KeyEsc {
 			break
