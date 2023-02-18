@@ -24,7 +24,7 @@ func Move() {
 
 		utils.ClearTerminal()
 
-		fmt.Printf("pointer1: %d\n", pointer)
+		fmt.Printf("Score: %d\n", Area.TAIL_SIZE*10-10)
 
 		Area.Print()
 

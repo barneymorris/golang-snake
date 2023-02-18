@@ -74,30 +74,9 @@ func (Area *AreaStruct) MoveHead(x, y int, direction string) {
 		Area.Area[oldX][oldY] = " "
 	}
 
-	for i := 0; i < len(Area.TAIL_COORDS); i++ {
-		x := Area.TAIL_COORDS[i][0]
-		y := Area.TAIL_COORDS[i][1]
-
-		Area.Area[x][y] = " "
-	}
-
-	if Area.TAIL_SIZE > 0 {
-		for i := 0; i < len(Area.TAIL_COORDS); i++ {
-			if i == len(Area.TAIL_COORDS)-1 {
-				item := []int{oldX, oldY}
-				Area.TAIL_COORDS[i] = item
-			} else {
-				Area.TAIL_COORDS[i] = Area.TAIL_COORDS[i+1]
-			}
-		}
-	}
-
-	for i := 0; i < len(Area.TAIL_COORDS); i++ {
-		x := Area.TAIL_COORDS[i][0]
-		y := Area.TAIL_COORDS[i][1]
-
-		Area.Area[x][y] = constants.SYMBOL_TAIL
-	}
+	Area.ClearTail()
+	Area.MoveTail()
+	Area.RefillTail()
 
 	if Area.Area[x][y] == constants.SYMBOL_TAIL {
 		utils.YouLoss()
@@ -109,6 +88,40 @@ func (Area *AreaStruct) MoveHead(x, y int, direction string) {
 
 	if isFruitAte {
 		Area.GenerateFruit(&Area.Area)
+	}
+}
+
+func (Area *AreaStruct) MoveTail() {
+	oldX := Area.CURRENT_HEAD_X
+	oldY := Area.CURRENT_HEAD_Y
+
+	if Area.TAIL_SIZE > 0 {
+		for i := 0; i < len(Area.TAIL_COORDS); i++ {
+			if i == len(Area.TAIL_COORDS)-1 {
+				item := []int{oldX, oldY}
+				Area.TAIL_COORDS[i] = item
+			} else {
+				Area.TAIL_COORDS[i] = Area.TAIL_COORDS[i+1]
+			}
+		}
+	}
+}
+
+func (Area *AreaStruct) ClearTail() {
+	for i := 0; i < len(Area.TAIL_COORDS); i++ {
+		x := Area.TAIL_COORDS[i][0]
+		y := Area.TAIL_COORDS[i][1]
+
+		Area.Area[x][y] = " "
+	}
+}
+
+func (Area *AreaStruct) RefillTail() {
+	for i := 0; i < len(Area.TAIL_COORDS); i++ {
+		x := Area.TAIL_COORDS[i][0]
+		y := Area.TAIL_COORDS[i][1]
+
+		Area.Area[x][y] = constants.SYMBOL_TAIL
 	}
 }
 
@@ -131,8 +144,6 @@ func (Area *AreaStruct) GenerateFruit(area *[constants.AREA_HIGTH][constants.ARE
 		randomX = rand.Intn(constants.AREA_WIDTH - 2)
 		randomY = rand.Intn(constants.AREA_HIGTH - 2)
 	}
-
-	fmt.Printf("%d, %d\n", randomX, randomY)
 
 	area[randomX][randomY] = constants.SYMBOL_FRUIT
 	Area.FRUIT_X = randomX
