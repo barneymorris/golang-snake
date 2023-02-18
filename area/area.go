@@ -43,8 +43,13 @@ func (Area *AreaStruct) InitArea() {
 	rand.Seed(time.Now().UnixNano())
 
 	// Generating random initial position for snake
-	randomX := rand.Intn(constants.AREA_WIDTH - 2)
-	randomY := rand.Intn(constants.AREA_HIGTH - 2)
+	randomX := 5
+	randomY := 5
+
+	area[randomX+1][randomY] = constants.SYMBOL_TAIL
+	item := []int{randomX + 1, randomY}
+	Area.TAIL_COORDS = append(Area.TAIL_COORDS, item)
+	Area.TAIL_SIZE = 1
 
 	area[randomX][randomY] = constants.SYMBOL_HEAD
 
@@ -76,17 +81,33 @@ func (Area *AreaStruct) MoveHead(x, y int, direction string) {
 	}
 
 	if Area.TAIL_SIZE > 0 {
-		for i := 0; i < len(Area.TAIL_COORDS); i++ {
 
-			if i == 0 {
+		for i := 0; i < len(Area.TAIL_COORDS); i++ {
+			if i == len(Area.TAIL_COORDS)-1 {
 				item := []int{oldX, oldY}
 				Area.TAIL_COORDS[i] = item
 			} else {
-				if i <= len(Area.TAIL_COORDS)-2 {
-					Area.TAIL_COORDS[i] = Area.TAIL_COORDS[i+1]
-				}
+				Area.TAIL_COORDS[i] = Area.TAIL_COORDS[i+1]
 			}
 		}
+
+		//if Area.TAIL_SIZE == 1 {
+		//	item := []int{oldX, oldY}
+		//	Area.TAIL_COORDS[0] = item
+		//}
+		//
+		//if Area.TAIL_SIZE == 2 {
+		//	item := []int{oldX, oldY}
+		//	Area.TAIL_COORDS[0] = Area.TAIL_COORDS[1]
+		//	Area.TAIL_COORDS[1] = item
+		//}
+		//
+		//if Area.TAIL_SIZE == 3 {
+		//	item := []int{oldX, oldY}
+		//	Area.TAIL_COORDS[0] = Area.TAIL_COORDS[1]
+		//	Area.TAIL_COORDS[1] = Area.TAIL_COORDS[2]
+		//	Area.TAIL_COORDS[2] = item
+		//}
 	}
 
 	for i := 0; i < len(Area.TAIL_COORDS); i++ {

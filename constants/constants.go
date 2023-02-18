@@ -13,8 +13,8 @@ func GetKeyCodesStruct() KeyCodesStruct {
 	return values
 }
 
-const AREA_WIDTH = 24 + 2
-const AREA_HIGTH = 24 + 2
+const AREA_WIDTH = 10 + 2
+const AREA_HIGTH = 10 + 2
 
 const SYMBOL_HEAD = "O"
 const SYMBOL_TAIL = "="
