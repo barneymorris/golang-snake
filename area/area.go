@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"snake/constants"
+	"snake/utils"
 	"time"
 )
 
@@ -81,7 +82,6 @@ func (Area *AreaStruct) MoveHead(x, y int, direction string) {
 	}
 
 	if Area.TAIL_SIZE > 0 {
-
 		for i := 0; i < len(Area.TAIL_COORDS); i++ {
 			if i == len(Area.TAIL_COORDS)-1 {
 				item := []int{oldX, oldY}
@@ -90,24 +90,6 @@ func (Area *AreaStruct) MoveHead(x, y int, direction string) {
 				Area.TAIL_COORDS[i] = Area.TAIL_COORDS[i+1]
 			}
 		}
-
-		//if Area.TAIL_SIZE == 1 {
-		//	item := []int{oldX, oldY}
-		//	Area.TAIL_COORDS[0] = item
-		//}
-		//
-		//if Area.TAIL_SIZE == 2 {
-		//	item := []int{oldX, oldY}
-		//	Area.TAIL_COORDS[0] = Area.TAIL_COORDS[1]
-		//	Area.TAIL_COORDS[1] = item
-		//}
-		//
-		//if Area.TAIL_SIZE == 3 {
-		//	item := []int{oldX, oldY}
-		//	Area.TAIL_COORDS[0] = Area.TAIL_COORDS[1]
-		//	Area.TAIL_COORDS[1] = Area.TAIL_COORDS[2]
-		//	Area.TAIL_COORDS[2] = item
-		//}
 	}
 
 	for i := 0; i < len(Area.TAIL_COORDS); i++ {
@@ -115,6 +97,10 @@ func (Area *AreaStruct) MoveHead(x, y int, direction string) {
 		y := Area.TAIL_COORDS[i][1]
 
 		Area.Area[x][y] = constants.SYMBOL_TAIL
+	}
+
+	if Area.Area[x][y] == constants.SYMBOL_TAIL {
+		utils.YouLoss()
 	}
 
 	Area.Area[x][y] = constants.SYMBOL_HEAD
